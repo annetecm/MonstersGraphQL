@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Firebase Admin service account keys must never be committed.
+**/firebase-service-account.json
