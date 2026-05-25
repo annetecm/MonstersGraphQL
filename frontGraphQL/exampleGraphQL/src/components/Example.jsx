@@ -7,6 +7,8 @@ export default function Example() {
     const [types, setTypes] = useState([]);
     // Tipo seleccionado actualmente
     const [selectedType, setSelectedType] = useState(null);
+    // Monsters filtrados según el tipo seleccionado
+    const [filteredMonsters, setFilteredMonsters] = useState([]);
     // Estado para manejar errores (GraphQL o conexión)
     const [error, setError] = useState(null);
 
@@ -49,10 +51,15 @@ export default function Example() {
         fetchMonsters();
     }, []);
 
-    // Monsters que coinciden con el tipo seleccionado
-    const filtered = selectedType
-        ? monsters.filter((m) => m.monster === selectedType)
-        : [];
+
+    useEffect(() => {
+        if (!selectedType) {
+            setFilteredMonsters([]);
+            return;
+        }
+
+        setFilteredMonsters(monsters.filter((m) => m.monster === selectedType));
+    }, [monsters, selectedType]);
 
     return (
         <div style={{ padding: 20 }}>
@@ -76,7 +83,7 @@ export default function Example() {
                 <>
                     <h2>{selectedType}</h2>
                     <ul style={{ listStyle: "none", padding: 0 }}>
-                        {filtered.map((m) => (
+                        {filteredMonsters.map((m) => (
                             <li key={m.id}>
                                 {m.name} | Gore Level: {m.goreLevel}
                             </li>
