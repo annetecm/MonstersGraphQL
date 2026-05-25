@@ -1,0 +1,32 @@
+# Define el tipo Monster (estructura de datos que se puede consultar en la API)
+type Monster {
+    id: ID!
+    name: String,
+    monster: String,
+    goreLevel: Int,
+    imageUrl: String,
+    createdAt: String,
+    updatedAt: String,
+    deletedAt: String,
+}
+
+# Define el input MonsterDto (datos que el cliente puede enviar para crear/guardar un Monster)
+input MonsterDto{
+    name: String,
+    monster: String,
+    goreLevel: Int,
+    imageUrl: String,
+}
+
+# Define las consultas disponibles para obtener datos (queries)
+type Query{
+    getAllMonsters: [Monster]
+    getRecentMonsters(count:Int,offset:Int): [Monster]
+    getMonsterById(id: ID!): Monster
+}
+
+# Define las operaciones para modificar datos (mutations)
+type Mutation{
+    deleteMonsterById(id:ID!): Monster
+    saveMonster(monsterDto: MonsterDto!): Monster
+}
