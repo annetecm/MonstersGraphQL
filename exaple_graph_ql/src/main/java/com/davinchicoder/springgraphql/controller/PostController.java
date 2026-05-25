@@ -31,7 +31,7 @@ public class PostController {
 
     /** Obtiene un monstruo por su ID o lanza PostNotFound. */
     @QueryMapping
-    public Post getMonsterById(@Argument Long id) {
+    public Post getMonsterById(@Argument String id) {
         return postRepository.getById(id).orElseThrow(PostNotFound::new);
     }
 
@@ -43,7 +43,7 @@ public class PostController {
 
     /** Elimina un monstruo por ID o lanza PostNotFound. */
     @MutationMapping
-    public Post deleteMonsterById(@Argument Long id) {
+    public Post deleteMonsterById(@Argument String id) {
 
         return postRepository.delete(id).orElseThrow(PostNotFound::new);
     }

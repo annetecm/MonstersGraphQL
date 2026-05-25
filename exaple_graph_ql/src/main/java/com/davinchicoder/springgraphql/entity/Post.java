@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Post {
 
-    private Long id;
+    private String id;
     private String name;
     private String monster;
     private Integer goreLevel;
