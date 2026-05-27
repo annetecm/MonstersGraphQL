@@ -1,1 +1,5 @@
 # MonstersGraphQL
+## Observer Pattern 
+The Observer Pattern is a design pattern where an object keeps track of changes and another object called listener is checking or 'listening' for those changes, when the subject changes, the observer is notified automatically, it reacts to the notification and updates themselves.
+In our code the observer pattern is found on our React Frontend, we implemented it using react hooks:
+We used useState(), we with two state variables monsters, which holds all the monster data and error which holds any error messages.Those are the objects being observed; on rhe other hand, we used useEffect() as the observer mechanism: the useEffect posts the GraphQL getAllMonsters query and sets monsters or error, and because React re-renders whenever state changes, the UI automatically updates. The component takes the monsters data and groups them by category, then creates a section and a list for each group. When the monsters state changes, those groups and the shown cards update automatically.
