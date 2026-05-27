@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringGraphqlApplication<spring-graphql>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.davinchicoder.springgraphql.SpringGraphqlApplication",
+            "projectName": "spring-graphql",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
