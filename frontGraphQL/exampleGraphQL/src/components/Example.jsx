@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
 
+const defaultCategories = ["flower", "water", "lava"];
+
 export default function Example() {
-    // Todos los monsters del backend
     const [monsters, setMonsters] = useState([]);
-    // Tipos únicos extraídos de los datos
-    const [types, setTypes] = useState([]);
-    // Tipo seleccionado actualmente
-    const [selectedType, setSelectedType] = useState(null);
-    // Monsters filtrados según el tipo seleccionado
-    const [filteredMonsters, setFilteredMonsters] = useState([]);
-    // Estado para manejar errores (GraphQL o conexión)
     const [error, setError] = useState(null);
 
-    // Carga todos los monsters al montar el componente
     useEffect(() => {
         const fetchMonsters = async () => {
             try {
@@ -23,6 +16,7 @@ export default function Example() {
                             name
                             monster
                             goreLevel
+                            imageUrl
                         }
                     }
                 `;
@@ -38,28 +32,26 @@ export default function Example() {
                     return;
                 }
 
-                const all = data?.data?.getAllMonsters ?? [];
-                setMonsters(all);
-                // Extrae tipos únicos para generar los botones
-                setTypes([...new Set(all.map((m) => m.monster))]);
+                setMonsters(data?.data?.getAllMonsters ?? []);
                 setError(null);
             } catch (err) {
                 console.log(err);
                 setError("Error de conexión");
             }
         };
+
         fetchMonsters();
     }, []);
 
-
-    useEffect(() => {
-        if (!selectedType) {
-            setFilteredMonsters([]);
-            return;
-        }
-
-        setFilteredMonsters(monsters.filter((m) => m.monster === selectedType));
-    }, [monsters, selectedType]);
+    const categories = monsters.reduce((grouped, monster) => {
+        const category = monster.monster || "Sin categoría";
+        grouped[category] = [...(grouped[category] ?? []), monster];
+        return grouped;
+    }, {});
+    const visibleCategories = [
+        ...defaultCategories,
+        ...Object.keys(categories).filter((category) => !defaultCategories.includes(category)),
+    ];
 
     return (
         <div style={{ padding: 20 }}>
@@ -67,30 +59,34 @@ export default function Example() {
 
             {error && <p style={{ color: "red" }}>{error}</p>}
 
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {types.map((type) => (
-                    <button
-                        key={type}
-                        onClick={() => setSelectedType(selectedType === type ? null : type)}
-                        style={{ fontWeight: selectedType === type ? "bold" : "normal" }}
-                    >
-                        {type}
-                    </button>
-                ))}
-            </div>
-
-            {selectedType && (
-                <>
-                    <h2>{selectedType}</h2>
-                    <ul style={{ listStyle: "none", padding: 0 }}>
-                        {filteredMonsters.map((m) => (
-                            <li key={m.id}>
-                                {m.name} | Gore Level: {m.goreLevel}
+            {visibleCategories.map((category) => (
+                <section className="monster-category" key={category}>
+                    <h2>{category}</h2>
+                    <ul className="monster-list">
+                        {(categories[category] ?? []).map((monster) => (
+                            <li className="monster-card" key={monster.id}>
+                                {monster.imageUrl ? (
+                                    <img
+                                        className="monster-image"
+                                        src={monster.imageUrl}
+                                        alt={monster.name}
+                                    />
+                                ) : (
+                                    <div className="monster-image monster-image-empty">
+                                        Sin imagen
+                                    </div>
+                                )}
+                                <div className="monster-info">
+                                    <p><strong>ID:</strong> {monster.id}</p>
+                                    <p><strong>Nombre:</strong> {monster.name}</p>
+                                    <p><strong>Gore level:</strong> {monster.goreLevel}</p>
+                                    <p><strong>Tipo de monstruo:</strong> {monster.monster}</p>
+                                </div>
                             </li>
                         ))}
                     </ul>
-                </>
-            )}
+                </section>
+            ))}
         </div>
     );
 }
