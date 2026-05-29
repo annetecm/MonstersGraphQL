@@ -1,5 +1,4 @@
-# 📚 Documentación del Proyecto Spring GraphQL
-# Creditos para: DavinchiCoder
+# Documentación del Proyecto Spring GraphQL
 
 ## Descripción General
 
@@ -12,7 +11,7 @@ La aplicación utiliza las siguientes tecnologías principales:
 - **Lombok**
 - **Maven** como gestor de dependencias
 
-## 🏗️ Arquitectura del Proyecto
+## Arquitectura del Proyecto
 
 La aplicación sigue una arquitectura de capas bien definida:
 
@@ -26,7 +25,7 @@ src/main/java/com/davinchicoder/springgraphql/
 └── SpringGraphqlApplication.java  # Clase principal
 ```
 
-## 📋 Componentes Principales
+## Componentes Principales
 
 ### 1. **PostController**
 
